@@ -1,0 +1,561 @@
+.custom-metallic-menu {
+    /* Fondo Degradado para simular Metal (Gris Oscuro a Claro y vuelta) */
+    background: linear-gradient(90deg, #333 0%, #777 25%, #444 50%, #777 75%, #333 100%) !important;
+    /* Efecto "Sombreado interior" para un look más sólido/pesado */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    border-bottom: 2px solid #aaaaaab0; /* Borde sutil */
+}
+
+/* Estilos de los enlaces individuales */
+.metallic-link {
+    color: #f8f9fa !important; /* Color de texto blanco/claro */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000; /* Sombra de texto para resaltado */
+    /* Prepara la transición para animar las propiedades */
+    transition: all 0.3s ease-in-out; 
+    position: relative;
+    overflow: hidden; /* Oculta el pseudo-elemento inicialmente */
+}
+
+/* Animación y Efecto al Pasar el Ratón (Hover) */
+.metallic-link:hover {
+    color: #fff !important; /* Color de texto más brillante al pasar el ratón */
+    /* Pequeña transformación para un efecto 3D sutil */
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4); /* Brillo sutil */
+    border-radius: 5px;
+}
+
+/* Animación CSS pura sin JavaScript: Línea deslizante de abajo */
+.metallic-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #1687c9; /* Color "Dorado" para un toque metálico */
+    transform: translateX(-100%); /* Inicialmente fuera de vista a la izquierda */
+    transition: transform 0.3s ease-in-out; /* Transición para la animación de deslizamiento */
+}
+
+.metallic-link:hover::after {
+    /* Desliza la línea dorada al 0% (completamente visible) */
+    transform: translateX(0); 
+}
+.fade-slider-section {
+    width: 100%;
+    margin: 40px 0;
+}
+
+.fade-slider-container {
+    width: 100%;
+    max-width: 100vw; /* Ancho completo */
+    height: 400px; /* Altura fija */
+    overflow: hidden;
+    position: relative; /* Contenedor para posicionar las imágenes absolutamente */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+}
+
+.fade-slide {
+    position: absolute; /* Superpone las imágenes */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Inicialmente todas ocultas */
+    animation: fade-slideshow 25s linear infinite; /* Duración total para 5 slides */
+}
+
+.fade-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Animación de Keyframes para el fundido (fade)
+   
+   La animación total dura 25s (5s por slide para estar visible, 
+   más tiempo para fundirse y esperar).
+   
+   Puntos clave para 5 slides (cada slide visible durante ~4s, 
+   más 1s de transición/espera):
+   25s / 5 slides = 5s por "ciclo" de slide
+   
+   Cada slide estará visible durante un 20% del tiempo total de la animación (5s de 25s).
+   Y habrá un pequeño solapamiento para el fundido.
+*/
+@keyframes fade-slideshow {
+    /* Slide 1 */
+    01% { opacity: 1; }
+    15% { opacity: 1; } /* Visible por 15% del tiempo total (15% de 25s = 3.75s) */
+    20% { opacity: 0; } /* Empieza a fundirse/ocultarse */
+    
+    /* Slide 2 */
+    20.01% { opacity: 0; } /* Se asegura que empieza oculto */
+    25% { opacity: 1; }
+    35% { opacity: 1; }
+    40% { opacity: 0; }
+    
+    /* Slide 3 */
+    40.01% { opacity: 0; }
+    45% { opacity: 1; }
+    55% { opacity: 1; }
+    60% { opacity: 0; }
+    
+    /* Slide 4 */
+    60.01% { opacity: 0; }
+    65% { opacity: 1; }
+    75% { opacity: 1; }
+    80% { opacity: 0; }
+    
+    /* Slide 5 */
+    80.01% { opacity: 0; }
+    85% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { opacity: 0; } /* Se oculta al final para que la primera vuelva a aparecer */
+}
+
+/* Aplicar retrasos a cada slide para que aparezcan en secuencia */
+.fade-slide-1 { animation-delay: 0s; } /* Empieza inmediatamente */
+.fade-slide-2 { animation-delay: 5s; } /* Empieza 5s después del primero */
+.fade-slide-3 { animation-delay: 10s; }
+.fade-slide-4 { animation-delay: 15s; }
+.fade-slide-5 { animation-delay: 20s; }
+
+
+.music-ticker-section {
+    width: 100%;
+    padding: 20px 0;
+    background-color: #1a1a1a; /* Fondo oscuro */
+    color: #fff; /* Texto claro */
+    text-align: center;
+}
+
+.music-ticker-section h2 {
+    margin-bottom: 15px;
+    color: #1f83d4; /* Dorado para destacar */
+}
+
+/* El contenedor que recorta el contenido */
+.ticker-container {
+    width: 100%;
+    overflow: hidden; /* **CLAVE:** Oculta los elementos que están fuera de la vista */
+    white-space: nowrap; /* Evita que los items salten de línea */
+    padding: 10px 0;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+}
+
+/* La tira de elementos que se va a mover */
+.ticker-track {
+    display: flex; /* **CLAVE:** Pone todos los elementos en una fila horizontal */
+    width: fit-content; /* Permite que el ancho crezca con los elementos */
+    will-change: transform; /* Optimización para la animación */
+    
+    /* Aplica la animación */
+    animation: ticker-scroll 40s linear infinite; /* 40s para el desplazamiento, ajusta según la longitud */
+}
+
+/* Estilo de cada elemento de la cinta */
+.ticker-item {
+    display: inline-block;
+    padding: 0 30px;
+    font-size: 1.2em;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-shrink: 0; /* Evita que el texto se encoja */
+    /* Separador sutil */
+    border-right: 1px solid rgba(255, 255, 255, 0.2); 
+}
+
+.artist {
+    color: #00bcd4; /* Cian para el artista */
+    font-weight: bold;
+}
+
+.song {
+    color: #f8f8f8;
+}
+
+/* 🎤 Animación de Keyframes para el Movimiento Horizontal */
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0); /* Empieza a la izquierda */
+    }
+    100% {
+        /* Se desplaza hacia la izquierda exactamente el 50% del ancho del track.
+           Como duplicamos el contenido, mover la mitad del ancho del track simula el bucle. */
+        transform: translateX(-50%); 
+    }
+}
+
+/* Efecto opcional: pausa la animación al pasar el ratón */
+.ticker-track:hover {
+    animation-play-state: paused;
+}
+.image-ticker-section {
+    width: 100%;
+    padding: 30px 0;
+    background-color: #f0f0f0; /* Fondo claro */
+    color: #333;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.image-ticker-section h2 {
+    margin-bottom: 25px;
+    color: #a0522d; /* Tono terroso/cálido */
+    font-size: 2em;
+}
+
+/* Contenedor visible del ticker */
+.image-ticker-container {
+    width: 90%; /* Un poco más estrecho para centrarlo */
+    max-width: 1200px; /* Ancho máximo para el contenedor */
+    margin: 0 auto; /* Centrar */
+    overflow: hidden; /* **CLAVE:** Oculta lo que se sale del contenedor */
+    border: 3px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    height: 250px; /* Altura fija para la cinta de imágenes */
+}
+
+/* La tira que se mueve */
+.image-ticker-track {
+    display: flex; /* **CLAVE:** Pone los elementos en una fila */
+    width: fit-content; /* Permite que el ancho crezca con el contenido */
+    height: 100%;
+    
+    /* Aplica la animación */
+    animation: image-scroll 35s linear infinite; /* 35s para el desplazamiento, ajusta velocidad */
+}
+
+/* Cada elemento de imagen */
+.image-ticker-item {
+    flex-shrink: 0; /* Evita que las imágenes se encojan */
+    width: 300px; /* Ancho fijo para cada imagen */
+    height: 100%;
+    margin: 0 15px; /* Espacio entre imágenes */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.image-ticker-item img {
+    width: 100%;
+    height: 180px; /* Altura de la imagen dentro del item */
+    object-fit: cover; /* Ajusta la imagen sin distorsionarla */
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.image-ticker-item p {
+    font-size: 0.9em;
+    color: #555;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+/* 🏞️ Animación de Keyframes para el Movimiento Horizontal */
+@keyframes image-scroll {
+    0% {
+        transform: translateX(0); /* Empieza en la posición inicial */
+    }
+    100% {
+        /* Desplaza la mitad del ancho del track.
+           Calcula el ancho de un conjunto de imágenes (7 imágenes * (ancho_item + margin_item*2)) */
+        transform: translateX(calc(-50% - (15px * 2 * 7))); 
+        /* El -50% es para el ancho total de los items, luego resto los margenes adicionales de los 7 items.
+           Esto asegura un bucle suave. Ajustar si el número de items o el margin cambia.
+           Una alternativa más sencilla si todos los items son del mismo ancho es:
+           transform: translateX(calc(-1 * (var(--total-item-width) + var(--item-margin)) * var(--num-items)));
+           Pero aquí intentamos ser más generales.
+        */
+        
+        /* Una forma más robusta es calcular el ancho de un solo bloque de items originales:
+           Si tienes 7 items originales y cada uno mide 300px + 2*15px de margen = 330px
+           Entonces, el desplazamiento es -(7 * 330px)
+        */
+        /* transform: translateX(calc(-7 * (300px + 30px))); */ /* Desplaza el ancho de las 7 imágenes + sus márgenes */
+    }
+}
+
+
+/* Pausar al pasar el ratón (opcional) */
+.image-ticker-track:hover {
+    animation-play-state: paused;
+}
+.mission-vision-section-blue {
+    background-color: #004d99; /* Azul oscuro elegante */
+    color: #f0f8ff; /* Texto azul claro/casi blanco para alto contraste */
+    padding: 35px;
+    margin: 20px 0;
+    border-radius: 10px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.mission-vision-section-blue h2 {
+    text-align: center;
+    color: #ffcc00; /* Un toque de color (amarillo/dorado) para el encabezado */
+    margin-bottom: 25px;
+    border-bottom: 2px solid #0073e6; /* Borde azul brillante */
+    padding-bottom: 10px;
+}
+
+/* 2. Estilos para el diseño de Columnas */
+.columns-container-blue {
+    display: flex; /* Habilita el layout de columnas */
+    gap: 25px; /* Espacio entre las columnas */
+}
+
+.mv-column-blue {
+    flex: 1; /* Ambas columnas ocupan el mismo espacio (50% cada una) */
+    padding: 25px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 3. Estilos de color para Misión y Visión (Tonos de Azul) */
+
+/* Estilo para la columna de Misión */
+.mission-column-blue {
+    background-color: #0073e6; /* Azul brillante medio */
+    border-right: 4px solid #ffcc00; /* Borde de contraste (Dorado/Amarillo) */
+}
+
+/* Estilo para la columna de Visión */
+.vision-column-blue {
+    background-color: #0088cc; /* Azul cian/claro */
+    border-left: 4px solid #ffcc00; /* Borde de contraste (Dorado/Amarillo) */
+}
+
+.mv-column-blue h3 {
+    color: #ffcc00; /* Título en Dorado/Amarillo */
+    margin-top: 0;
+    font-size: 1.6em;
+}
+
+.mv-column-blue p {
+    line-height: 1.7;
+}
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.video-gallery {
+  max-width: 1200px; /* Ancho máximo para el contenedor */
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo principal del Mosaico (CSS Grid) */
+.video-grid {
+  display: grid;
+  /* Define las columnas: 3 columnas de igual ancho para pantallas grandes */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 20px; /* Espacio entre los videos */
+  padding-top: 20px;
+}
+
+/* Contenedor del Video - Es clave para mantener la proporción de aspecto */
+.video-item {
+  position: relative;
+  /* Truco para el Aspect Ratio 16:9 (altura = 56.25% del ancho) */
+  padding-bottom: 56.25%; 
+  height: 0;
+  overflow: hidden; /* Oculta cualquier desbordamiento */
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* El elemento de video real (<iframe> o <video>) */
+.video-item iframe,
+.video-item video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Media Query para hacerlo Responsivo */
+@media (max-width: 900px) {
+  /* En tablets, cambiamos a 2 columnas */
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  /* En móviles, cambiamos a 1 columna */
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.mision-vision-container {
+    display: flex; /* Habilita el diseño de columnas */
+    max-width: 1000px; /* Limita el ancho del contenedor principal */
+    margin: 40px auto; /* Centra el contenedor y agrega espacio */
+    gap: 20px; /* Espacio entre las columnas */
+    padding: 20px;
+}
+
+.columna {
+    flex: 1; /* Hace que ambas columnas ocupen el mismo espacio */
+    padding: 30px;
+    border-radius: 10px; /* Esquinas redondeadas para un look moderno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: transform 0.3s ease; /* Transición suave al pasar el ratón */
+    min-height: 250px; /* Altura mínima para que se vean bien */
+}
+
+/* Estilo de fondo gris para la columna de Misión */
+.mision {
+    background-color: #f0f0f0; /* Gris claro */
+    border-left: 5px solid #666; /* Borde izquierdo de énfasis */
+}
+
+/* Estilo de fondo gris para la columna de Visión */
+.vision {
+    background-color: #e8e8e8; /* Un gris un poco más oscuro */
+    border-left: 5px solid #444; /* Borde izquierdo de énfasis más fuerte */
+}
+
+.titulo-columna {
+    color: #333; /* Color oscuro para el título */
+    font-size: 1.8em;
+    margin-top: 0;
+    border-bottom: 2px solid #ccc; /* Línea de separación bajo el título */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.columna p {
+    color: #555; /* Gris más oscuro para el texto */
+    line-height: 1.6;
+    font-size: 1.1em;
+}
+
+/* Efecto al pasar el ratón (opcional) */
+.columna:hover {
+    transform: translateY(-5px); /* Se levanta ligeramente */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+/* Media Query para pantallas pequeñas (convierte a una sola columna) */
+@media (max-width: 768px) {
+    .mision-vision-container {
+        flex-direction: column; /* Apila las columnas verticalmente */
+    }
+}
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Estilos del FOOTER principal --- */
+footer {
+    background-color: #2c3e50; /* Azul oscuro elegante */
+    color: #ecf0f1; /* Gris claro para el texto */
+    padding-top: 30px;
+    margin-top: auto; /* Empuja el footer hacia abajo */
+    width: 100%;
+}
+
+/* Contenedor principal para las 3 columnas */
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 30px 20px;
+    display: flex; /* Habilita Flexbox para las columnas */
+    justify-content: space-between; /* Distribuye el espacio entre columnas */
+    gap: 30px; /* Espacio entre las columnas */
+    flex-wrap: wrap; /* Permite que las columnas se apilen en móviles */
+}
+
+/* Estilos para cada sección/columna */
+.footer-section {
+    flex: 1; /* Distribuye el espacio equitativamente */
+    min-width: 250px; /* Ancho mínimo antes de apilarse */
+}
+
+.footer-section h3 {
+    color: #3498db; /* Azul vibrante para los títulos */
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+/* Estilos para los enlaces (teléfono, correo, lista) */
+.footer-section a {
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover {
+    color: #3498db;
+    text-decoration: underline;
+}
+
+/* Estilos para la lista de información general */
+.general-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.general-info li {
+    margin-bottom: 8px;
+}
+
+/* --- Estilos de la parte inferior del footer (Copyright) --- */
+.footer-bottom {
+    background-color: #1e2b38; /* Fondo más oscuro para la parte inferior */
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.8em;
+}
+
+/* Media Query para pantallas pequeñas (Móviles) */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column; /* Apila las columnas verticalmente */
+        align-items: center; /* Centra las secciones */
+        padding-bottom: 20px;
+    }
+
+    .footer-section {
+        margin-bottom: 20px;
+        text-align: center; /* Centra el texto dentro de cada sección */
+        min-width: 80%;
+    }
+
+    .footer-section h3 {
+        text-align: center;
+        width: fit-content;
+        margin: 0 auto 15px auto;
+    }
+
+    .general-info ul {
+        text-align: center;
+    }
+}
